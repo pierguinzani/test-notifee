@@ -1,21 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Button } from 'react-native';
+import notifee, { AndroidImportance, AndroidVisibility, AndroidColor } from '@notifee/react-native';
 
 export default function App() {
+  async function onDisplayNotification() {
+    // Request permissions (required for iOS)
+    await notifee.requestPermission()
+
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'teste',
+      name: 'Default Channel',
+      importance: AndroidImportance.HIGH,
+      visibility: AndroidVisibility.PUBLIC,
+    });
+
+    notifee.registerForegroundService((notification) => {
+      return new Promise(() => {
+        setTimeout(() => {
+          console.log('Foreground service finished');
+        }, 1000);
+      });
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: 'Notification Title',
+      body: 'Ongoing notification',
+      android: {
+        channelId,
+        importance: AndroidImportance.HIGH,
+        visibility: AndroidVisibility.PUBLIC,
+        ongoing: true,
+        asForegroundService: true,
+        color: AndroidColor.RED,
+        colorized: true,
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <Button title="Display Notification" onPress={() => onDisplayNotification()} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'testnotifee'
+rootProject.name = 'test-notifee'
 
 dependencyResolutionManagement {
   versionCatalogs {
