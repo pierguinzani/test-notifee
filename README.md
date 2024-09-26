@@ -21,8 +21,8 @@ Ensure you have the following installed:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/your-repository.git
-   cd your-repository
+   git clone git@github.com:pierguinzani/test-notifee.git
+   cd test-notifee
    ```
 ### Install dependencies:
 
